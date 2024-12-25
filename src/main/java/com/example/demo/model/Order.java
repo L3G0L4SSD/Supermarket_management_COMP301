@@ -1,5 +1,7 @@
 package com.example.demo.model;
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
@@ -9,7 +11,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Product> products = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
@@ -19,7 +21,8 @@ public class Order {
         this.status=OrderStatus.PENDING; //varsayılan durum PENDING
     }
 
-
+    @Column(name ="created_date")
+    private LocalDateTime createdDate=LocalDateTime.now();
 
     public void addProduct(Product product) {
 
