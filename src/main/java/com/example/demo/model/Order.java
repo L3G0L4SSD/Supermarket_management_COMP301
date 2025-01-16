@@ -12,17 +12,26 @@ public class Order {
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name ="order_id") //ilişkiyi yöneticek buradan
     private List<Product> products = new ArrayList<>();
 
+
+
     @Enumerated(EnumType.STRING)
+    @Column(name="status",nullable=false)
     private OrderStatus status;
+
+    @Column(name="created_date",nullable = false)
+    private LocalDateTime createdDate;
+
+
 
     public Order() {
         this.status=OrderStatus.PENDING; //varsayılan durum PENDING
+        createdDate = LocalDateTime.now();
     }
 
-    @Column(name ="created_date")
-    private LocalDateTime createdDate=LocalDateTime.now();
+
 
     public void addProduct(Product product) {
 
@@ -32,6 +41,7 @@ public class Order {
     public List<Product> getProducts() {
         return products;
     }
+
     public Long getId() {
         return id;
     }
@@ -40,5 +50,11 @@ public class Order {
     }
     public void setStatus(OrderStatus status) {
         this.status = status;
+    }
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 }
